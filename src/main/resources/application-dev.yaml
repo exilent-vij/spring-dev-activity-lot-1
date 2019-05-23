@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    platform: org.hibernate.dialect.PostgreSQLDialect
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+  liquibase:
+    change-log: classpath:db/liquibase-changelog-dev.xml
+    contexts: dev
+
+  devtools:
+    remote:
+      secret: exilentsystems
+
+  profiles:
+    active: dev
+  thymeleaf:
+    template-loader-path: classpath:/templates
+    suffix: .html
+server:
+  port: 8081

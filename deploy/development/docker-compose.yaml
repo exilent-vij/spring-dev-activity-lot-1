@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+  dev-activity:
+    container_name: dev-activity
+    image: exilentsystems/dev-activity:latest
+    volumes:
+      - $PWD/src/main:/src/main
+      - $PWD/pom.xml:/pom.xml
+      - $PWD/.m2:/root/.m2
+      - $PWD/target:/target
+      - $PWD/src/test:/src/test
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=dev-activity-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=dev-activity-db
+    ports:
+      - 8081:8081
+      - 5006:5006
+    depends_on:
+      - dev-activity-db
+  dev-activity-db:
+    container_name: dev-activity-db
+    image: postgres:10.5
+    volumes:
+      - $PWD/postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=dev-activity-db
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5433:5432
+
+networks:
+  default:
+    external:
+      name: exilent-systems
+volumes:
+  dev-activity-db: {}
